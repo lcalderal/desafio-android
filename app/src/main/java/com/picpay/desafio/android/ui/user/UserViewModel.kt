@@ -2,49 +2,67 @@ package com.picpay.desafio.android.ui.user
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.picpay.desafio.android.data.model.UserResponse
+import com.picpay.desafio.android.data.model.UserModel
 import com.picpay.desafio.android.respository.UserRepository
 import com.picpay.desafio.android.state.ResourceState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 import javax.inject.Inject
+
 
 @HiltViewModel
 class UserViewModel @Inject constructor(private val repository: UserRepository) : ViewModel(){
-    private val _users = MutableStateFlow<ResourceState<UserResponse>>(ResourceState.Loading())
-    val users: StateFlow<ResourceState<UserResponse>> = _users
+    private val _users = MutableStateFlow<ResourceState<List<UserModel>>>(ResourceState.Loading())
+    val users: StateFlow<ResourceState<List<UserModel>>> = _users
 
     init {
         fetch()
     }
 
     private fun fetch()  = viewModelScope.launch {
-        safeFetch()
+        val response = repository.getUsers()
+        handleResponse(response)
     }
 
-    private suspend fun safeFetch() {
-        try {
-            val response = repository.getUsers()
-            _users.value = handleResponse(response)
-        }
-        catch (t: Throwable) {
-            when(t) {
-                is IOException -> _users.value = ResourceState.Error(null,"Error de conexão")
-                else -> _users.value = ResourceState.Error( null,"Falha na conversão de dados")
+    private fun handleResponse(response: Call<List<UserModel>>){
+        response.enqueue(object : Callback<List<UserModel>>{
+            override fun onFailure(call: Call<List<UserModel>>, t: Throwable) {
+                _users.value = ResourceState.Error(null, t.message.toString())
             }
-        }
-    }
 
-    private fun handleResponse(response: Response<UserResponse>): ResourceState<UserResponse> {
-        if (response.isSuccessful) {
-            response.body()?.let { values ->
-                return ResourceState.Success(values)
+            override fun onResponse(call: Call<List<UserModel>>, response: Response<List<UserModel>>) {
+                response.body()?.let { values ->
+                    _users.value = ResourceState.Success(values)
+                }
             }
-        }
-        return ResourceState.Error(null, response.message())
+        })
     }
 }
+//    private fun safeFetch() {
+//        val response = repository.getUsers()
+//        handleResponse(response)
+//        try {
+//            val response = repository.getUsers()
+//            _users.value = handleResponse(response)
+//        }
+//        catch (t: Throwable) {
+//            when(t) {
+//                is IOException -> _users.value = ResourceState.Error(null, t.message.toString())
+//                else -> _users.value = ResourceState.Error( null, t.message.toString())
+//            }
+//        }
+//    }
+
+//    private fun handle2(response: Response<List<UserModel>>): ResourceState<List<UserModel>> {
+//        if (response.isSuccessful) {
+//            response.body()?.let { values ->
+//                return ResourceState.Success(values)
+//            }
+//        }
+//        return ResourceState.Error(null, response.message())
+//    }
