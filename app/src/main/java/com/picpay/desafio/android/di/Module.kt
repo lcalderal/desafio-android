@@ -1,7 +1,7 @@
 package com.picpay.desafio.android.di
 
 import com.picpay.desafio.android.service.PicPayService
-import com.picpay.desafio.util.Constants.BASE_URL
+import com.picpay.desafio.android.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
