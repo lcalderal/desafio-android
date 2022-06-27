@@ -1,0 +1,27 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\n\r\napply plugin: 'kotlin-android'\r\n\r\napply plugin: 'kotlin-android-extensions'\r\n\r\napply plugin: 'kotlin-kapt'\r\n\r\napply plugin: 'dagger.hilt.android.plugin'\r\n\r\nandroid {\r\n    compileSdkVersion 29\r\n    defaultConfig {\r\n        applicationId \"com.picpay.desafio.android\"\r\n        minSdkVersion 21\r\n        targetSdkVersion 29\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        vectorDrawables.useSupportLibrary = true\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n    buildTypes {\r\n        debug {}\r\n\r\n        release {\r\n            minifyEnabled true\r\n            shrinkResources true\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n\r\n    compileOptions {\r\n        sourceCompatibility 1.8\r\n        targetCompatibility 1.8\r\n    }\r\n\r\n    kotlinOptions {\r\n        jvmTarget = JavaVersion.VERSION_1_8.toString()\r\n    }\r\n    viewBinding {\r\n        enabled = true\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: 'libs', include: ['*.jar'])\r\n\r\n    implementation \"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version\"\r\n\r\n    implementation \"androidx.core:core-ktx:$core_ktx_version\"\r\n\r\n    implementation \"androidx.appcompat:appcompat:$appcompat_version\"\r\n    implementation \"androidx.constraintlayout:constraintlayout:$constraintlayout_version\"\r\n\r\n    implementation \"com.google.android.material:material:$material_version\"\r\n\r\n    implementation \"com.google.dagger:dagger:$dagger_version\"\r\n    implementation 'androidx.navigation:navigation-fragment:2.4.2'\r\n    kapt \"com.google.dagger:dagger-compiler:$dagger_version\"\r\n\r\n    implementation \"androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version\"\r\n    implementation \"androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version\"\r\n    implementation \"androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version\"\r\n\r\n    implementation \"org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version\"\r\n    implementation \"org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version\"\r\n    testImplementation \"org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version\"\r\n\r\n    implementation \"io.reactivex.rxjava2:rxjava:$rxjava_version\"\r\n    implementation \"io.reactivex.rxjava2:rxandroid:$rxandroid_version\"\r\n\r\n    implementation 'com.google.code.gson:gson:2.8.6'\r\n\r\n    implementation \"com.squareup.retrofit2:retrofit:$retrofit_version\"\r\n    implementation \"com.squareup.retrofit2:adapter-rxjava2:$retrofit_version\"\r\n    implementation \"com.squareup.retrofit2:converter-gson:$retrofit_version\"\r\n    implementation \"com.squareup.okhttp3:okhttp:$okhttp_version\"\r\n    implementation \"com.squareup.okhttp3:mockwebserver:$okhttp_version\"\r\n\r\n    implementation \"com.squareup.picasso:picasso:$picasso_version\"\r\n    implementation \"de.hdodenhof:circleimageview:$circleimageview_version\"\r\n\r\n    testImplementation \"junit:junit:$junit_version\"\r\n    testImplementation \"org.mockito:mockito-core:$mockito_version\"\r\n    testImplementation \"com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version\"\r\n    testImplementation \"androidx.arch.core:core-testing:$core_testing_version\"\r\n\r\n    androidTestImplementation \"androidx.test:runner:$test_runner_version\"\r\n    androidTestImplementation \"androidx.test.espresso:espresso-core:$espresso_version\"\r\n    androidTestImplementation \"androidx.test:core-ktx:$core_ktx_test_version\"\r\n\r\n    //Hilt\r\n    implementation 'com.google.dagger:hilt-android:2.37'\r\n    kapt 'com.google.dagger:hilt-android-compiler:2.37'\r\n    kapt \"androidx.hilt:hilt-compiler:1.0.0\"\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	(revision 3195d574b65369a3d0f7ea5f29b8ad06d19000a3)
++++ b/app/build.gradle	(date 1656183118821)
+@@ -58,6 +58,7 @@
+ 
+     implementation "com.google.dagger:dagger:$dagger_version"
+     implementation 'androidx.navigation:navigation-fragment:2.4.2'
++    testImplementation project(path: ':app')
+     kapt "com.google.dagger:dagger-compiler:$dagger_version"
+ 
+     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+@@ -95,4 +96,8 @@
+     implementation 'com.google.dagger:hilt-android:2.37'
+     kapt 'com.google.dagger:hilt-android-compiler:2.37'
+     kapt "androidx.hilt:hilt-compiler:1.0.0"
++
++    testImplementation "io.mockk:mockk:1.12.4"
++    androidTestImplementation "io.mockk:mockk-android:1.12.4"
++    androidTestImplementation "io.mockk:mockk-agent-jvm:1.12.4"
+ }

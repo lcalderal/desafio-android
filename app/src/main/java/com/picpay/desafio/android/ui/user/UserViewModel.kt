@@ -43,26 +43,3 @@ class UserViewModel @Inject constructor(private val repository: UserRepository) 
         })
     }
 }
-//    private fun safeFetch() {
-//        val response = repository.getUsers()
-//        handleResponse(response)
-//        try {
-//            val response = repository.getUsers()
-//            _users.value = handleResponse(response)
-//        }
-//        catch (t: Throwable) {
-//            when(t) {
-//                is IOException -> _users.value = ResourceState.Error(null, t.message.toString())
-//                else -> _users.value = ResourceState.Error( null, t.message.toString())
-//            }
-//        }
-//    }
-
-//    private fun handle2(response: Response<List<UserModel>>): ResourceState<List<UserModel>> {
-//        if (response.isSuccessful) {
-//            response.body()?.let { values ->
-//                return ResourceState.Success(values)
-//            }
-//        }
-//        return ResourceState.Error(null, response.message())
-//    }
