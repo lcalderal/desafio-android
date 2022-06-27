@@ -11,6 +11,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+/**É usado para ensinar ao Hilt como irá criar as instâncias de referências que não podem ser
+ * criadas a partir de um construtor anotado**/
 @Module
 @InstallIn(SingletonComponent::class)
 object Module {
